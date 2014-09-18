@@ -10,45 +10,107 @@ namespace Godtycklig_Lönerevision
     {
         static void Main(string[] args)
         {
-            int numberOfSalaries = ReadInt("Ange antal löner att mata in: ");
-
-            while (numberOfSalaries < 2)
+            while (true)
             {
-                Console.BackgroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("\nDu måste mata in minst två löner för att kunna göra en beräkning!\n");
+                int numberOfSalaries = ReadInt("Ange antal löner att mata in: ");
+                while (numberOfSalaries < 2)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("\nDu måste mata in minst två löner för att kunna göra en beräkning!\n");
+                    Console.ResetColor();
+                    numberOfSalaries = ReadInt("Ange antal löner att mata in: ");
+                }
+
+                // Kalla på metoden ProcessSalaries.          
+                Console.WriteLine();
+                ProcessSalaries(numberOfSalaries);
+
+                // Tryck på escape för att avsluta, valfri knapp startar om.
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("\nValfri tangent påbörjar ny beräkning - [ESC] avslutar programmet.\n");
                 Console.ResetColor();
-                numberOfSalaries = ReadInt("Ange antal löner att mata in: ");
-                
+                if (Console.ReadKey(true).Key == ConsoleKey.Escape)
+                {
+                    return;
+                }
             }
-
-
-            ProcessSalaries(numberOfSalaries);
-
-
         }
 
         static int ReadInt(string prompt)
         {           
             while (true)
             {
-
+                Console.Write(prompt);
+                string temp = Console.ReadLine();
                 try
                 {
-                    Console.Write(prompt);
-                    return int.Parse(Console.ReadLine());                    
+                    return int.Parse(temp);                    
                 }
                 catch (FormatException)
                 {
                     Console.BackgroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("FEL! {0} kan inte tolkas som ett heltal!");
+                    Console.WriteLine("FEL! \"{0}\" kan inte tolkas som ett heltal!", temp);
                     Console.ResetColor();
                 }
             }           
         }
 
-        static int ProcessSalaries(int count)
+        static void ProcessSalaries(int count)
         {
-            throw new NotImplementedException();
+            // Skapa arrayen salaries och ge den värden.
+            int[] salaries = new int[count];
+            for (int i = 0; i < count; i++)
+			{			
+            salaries[i] = ReadInt("Ange lön nummer" + (i + 1) + ": ");
+            }
+
+            // Kopiera array salaries till salariesCopy för senare redovisning.
+            int[] salariesCopy = new int[count];
+            Array.Copy(salaries, salariesCopy, count);
+
+            // Sortera salaries.
+            Array.Sort(salaries);
+            Console.WriteLine();
+
+            // Lite variabler.
+            int medianSalary;
+            int meanSalary = (int)salaries.Average();
+            int salarySpread = salaries.Max() - salaries.Min();
+
+            // Räkna ut median.
+            if (count % 2 != 0)
+            {
+                medianSalary = salaries[count / 2];
+            }
+            else
+            {
+                medianSalary = (salaries[(count - 1) / 2] + salaries[(count + 1) / 2]) / 2;
+            }
+
+            
+
+            Console.WriteLine("\n---------------------------\n");
+            Console.WriteLine("Medianlön:     {0,5:c0}", medianSalary);
+            Console.WriteLine("Medellön:      {0,5:c0}", meanSalary);
+            Console.WriteLine("Lönespridning: {0,5:c0}", salarySpread);
+            Console.WriteLine("\n---------------------------\n");
+
+            // Skriv ut alla löner, i inmatad ordning, tre på varje rad.
+
+            Console.WriteLine("En massa löner!");
+                       
+
+//foreach (int item in salaries)
+//            {
+//                Console.WriteLine(item);
+//            }
+
+//            Console.WriteLine("Osorterad kopia:");
+//            foreach (int item in salariesCopy)
+//            {
+//                Console.WriteLine(item);
+//            }
+            
         }    
 
 
