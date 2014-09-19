@@ -61,7 +61,7 @@ namespace Godtycklig_Lönerevision
             int[] salaries = new int[count];
             for (int i = 0; i < count; i++)
 			{			
-            salaries[i] = ReadInt("Ange lön nummer" + (i + 1) + ": ");
+            salaries[i] = ReadInt("Ange lön nummer " + (i + 1) + ": ");
             }
 
             // Kopiera array salaries till salariesCopy för senare redovisning.
@@ -96,21 +96,15 @@ namespace Godtycklig_Lönerevision
             Console.WriteLine("\n---------------------------\n");
 
             // Skriv ut alla löner, i inmatad ordning, tre på varje rad.
-
-            Console.WriteLine("En massa löner!");
-                       
-
-//foreach (int item in salaries)
-//            {
-//                Console.WriteLine(item);
-//            }
-
-//            Console.WriteLine("Osorterad kopia:");
-//            foreach (int item in salariesCopy)
-//            {
-//                Console.WriteLine(item);
-//            }
-            
+            for (int i = 0; i < salariesCopy.Length; i++)
+                {
+                    Console.Write("{0,8}", salariesCopy[i]);
+                    if ((i % 3) == 2) 
+                    {
+                        Console.WriteLine();
+                    }
+                }
+            Console.WriteLine();
         }    
 
 
