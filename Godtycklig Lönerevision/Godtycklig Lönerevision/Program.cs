@@ -10,14 +10,22 @@ namespace Godtycklig_Lönerevision
     {
         static void Main(string[] args)
         {
+            // Booleska variabeln loop sätts till true och hela main-metoden nästlas i 
+            // en while-loop som fortsätter så länge loop-variabeln fortsätter vara true.
             bool loop = true;
             while (loop == true)
             {
-
+                // Deklarera variabeln numberOfSalaries och sätt värdet 0.
                 int numberOfSalaries = 0;
+
+                // Inmatning av antal löner sker nästlat i en while-sats som loopas 
+                // innehållet medan numberOfSalaries har ett värde mindre än 2. 
                 while (numberOfSalaries < 2)
                 {
                     numberOfSalaries = ReadInt("Ange antal löner att mata in: ");
+
+                    // Är det inmatade värdet mindre än 2 skrivs ett meddelande ut med ViewMessage-metoden, 
+                    // booleska värdet true skickas med för att visa att det är ett error-meddelande.
                     if (numberOfSalaries < 2)
                     {
                         ViewMessage("\nDu måste mata in minst två löner för att kunna göra en beräkning!\n", true);
@@ -25,16 +33,24 @@ namespace Godtycklig_Lönerevision
                 }
 
                 Console.WriteLine();
+
+                // Deklarera arrayen salaries och läs in värden i den med hjälp av metoden 
+                // ReadSalaries, dit numberOfSalaries skickas med som argument. 
                 int[] salaries = ReadSalaries(numberOfSalaries);
 
+                // Skriv ut resultat med hjälp av metoden ViewResult, arrayen som vi skapade
+                // ovan skickas med som argument. 
                 ViewResult(salaries);
 
+                // Avslutningsvis kallar vi på metoden IsContinuing för att fråga användaren 
+                // om hen vill göra en ny beräkning eller avsluta programmet.
                 loop = IsContinuing();
             }
         }
-
+               
         static int ReadInt(string prompt)
         {
+            // Läser in heltal.
             while (true)
             {
                 Console.Write(prompt);
@@ -61,7 +77,7 @@ namespace Godtycklig_Lönerevision
 
         static int[] ReadSalaries(int count)
         {
-            // Skapa arrayen salaries och ge den värden.
+            // Skapar en array och ger den värden med hjälp av en for-loop.
             int[] salaries = new int[count];
             for (int i = 0; i < count; i++)
             {
@@ -72,6 +88,8 @@ namespace Godtycklig_Lönerevision
 
         static void ViewResult(int[] salaries)
         {
+            // Visar resultatet. Metoderna Getmedian och GetDispersion 
+            // räknar ut medianlön respektive lönespridning.
             int medianSalary = GetMedian(salaries);
             int averageSalary = (int)salaries.Average();
             int salaryDispersion = GetDispersion(salaries);
@@ -101,6 +119,7 @@ namespace Godtycklig_Lönerevision
 
         static int GetMedian(int[] source)
         {
+            // Räknar ut medianlön.
             int medianSalary;
             int[] copy = new int[source.Length];
             Array.Copy(source, copy, source.Length);
@@ -118,6 +137,7 @@ namespace Godtycklig_Lönerevision
 
         static bool IsContinuing()
         {
+            // Frågar användaren om hen vill göra en ny beräkning eller avsluta programmet.
             ViewMessage("\nValfri tangent påbörjar ny beräkning - [ESC] avslutar programmet.\n", false);
             if (Console.ReadKey(true).Key == ConsoleKey.Escape)
             {
@@ -132,6 +152,8 @@ namespace Godtycklig_Lönerevision
 
         static void ViewMessage(string message, bool isError)
         {
+            // Skriver ut medskickad sträng och formaterar meddelandena olika beroende på om 
+            // det är ett error-meddelande eller inte. 
             if (isError == true)
             {
                 Console.BackgroundColor = ConsoleColor.DarkRed;
